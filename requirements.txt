@@ -3,3 +3,4 @@ flask
 bs4
 pandas
 lxml
+gunicorn
