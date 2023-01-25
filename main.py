@@ -1,6 +1,11 @@
 from flask import Flask
 from flask import render_template,request,redirect,url_for,flash
 import json
+from dotenv import load_dotenv
+import os
+import requests
+load_dotenv()
+
 
 app = Flask(__name__)
 
@@ -16,9 +21,6 @@ def searchcode():
     # user input code
     code = request.form['code']
     
-    # read database
-    text_str = read_json('genshin_code.json')
-    
     # check  repeat code with input code and database
     ans = check_repeat_code(code,text_str)
 
@@ -32,14 +34,26 @@ def searchcode():
     return redirect(url_for('index'))
 
 
+def readenv():
+    Authorization = os.getenv("Authorization")
+    Accept = os.getenv("Accept")
+    url = os.getenv("url")
 
-def read_json(filename):
-    text_str = {}
+    return Authorization,Accept,url
+
+def get_json():
+    
     try:
-        with open(filename, "r", encoding='utf8') as f:
-            text_str = json.loads(f.read())
+        # read env
+        Authorization,Accept,url = readenv()
+        headers = {
+            "Authorization":Authorization,
+            "Accept":Accept
+        }
+        res = requests.get(url,headers=headers)
+        text_str = json.loads(res.text)
     except:
-        print("Can't find json file.\n")
+        flash("Can't load data.")
     return text_str
 
 
@@ -62,4 +76,6 @@ def check_repeat_code(code,text_str):
 if __name__ == '__main__':
     app.debug = False
     app.secret_key = "your key"
+    # read database
+    text_str = get_json()
     app.run()
