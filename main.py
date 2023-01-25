@@ -60,6 +60,6 @@ def check_repeat_code(code,text_str):
 
 
 if __name__ == '__main__':
-    app.debug = True
+    app.debug = False
     app.secret_key = "your key"
     app.run()
