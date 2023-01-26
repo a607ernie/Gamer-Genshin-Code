@@ -4,6 +4,7 @@ import json
 from dotenv import load_dotenv
 import os
 import requests
+dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
 
 
 
@@ -22,7 +23,7 @@ def searchcode():
     code = request.form['code']
     
     # check  repeat code with input code and database
-    ans = check_repeat_code(code,text_str)
+    ans = check_repeat_code(code)
 
     # output answer
     if ans == "序號已存在":
@@ -31,7 +32,7 @@ def searchcode():
         flash('序號可使用')
     else:
         flash('有BUG, 請等待修復')
-    return redirect(url_for('index'))
+    return render_template('index.html')
 
 
 def readenv():
@@ -42,7 +43,7 @@ def readenv():
     return Authorization,Accept,url
 
 def get_json():
-    load_dotenv()
+    load_dotenv(dotenv_path)
     try:
         # read env
         Authorization,Accept,url = readenv()
@@ -58,9 +59,11 @@ def get_json():
 
 
 
-def check_repeat_code(code,text_str):
+def check_repeat_code(code):
     # code = new code
     # _code = the code in json file
+    # read database
+    text_str = get_json()
     if text_str != {}:
         for item in text_str.keys():
             for _code in text_str[item]['code']:
@@ -75,7 +78,5 @@ def check_repeat_code(code,text_str):
 
 if __name__ == '__main__':
     #app.debug = False
-    app.secret_key = "your key"
-    # read database
-    text_str = get_json()
+    #app.secret_key = "your key"
     app.run()
