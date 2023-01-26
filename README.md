@@ -1,6 +1,6 @@
 # Gamer-Genshin-Code
 
-http://a607ernie.pythonanywhere.com/
+https://coupcker.pythonanywhere.com/
 
 # why use
 貼到討論區的序號，需要經過人工比對有無重複，無法有效率的比對，因此藉由此專案可解決。
