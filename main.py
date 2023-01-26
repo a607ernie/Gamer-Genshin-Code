@@ -32,7 +32,7 @@ def searchcode():
         flash('序號可使用')
     else:
         flash('有BUG, 請等待修復')
-    return render_template('index.html')
+    return redirect(url_for('index'))
 
 
 def readenv():
@@ -78,5 +78,5 @@ def check_repeat_code(code):
 
 if __name__ == '__main__':
     #app.debug = False
-    #app.secret_key = "your key"
+    app.secret_key = "your key"
     app.run()
