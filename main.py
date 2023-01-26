@@ -4,7 +4,7 @@ import json
 from dotenv import load_dotenv
 import os
 import requests
-load_dotenv()
+
 
 
 app = Flask(__name__)
@@ -42,7 +42,7 @@ def readenv():
     return Authorization,Accept,url
 
 def get_json():
-    
+    load_dotenv()
     try:
         # read env
         Authorization,Accept,url = readenv()
