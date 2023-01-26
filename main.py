@@ -74,7 +74,7 @@ def check_repeat_code(code,text_str):
 
 
 if __name__ == '__main__':
-    app.debug = False
+    #app.debug = False
     app.secret_key = "your key"
     # read database
     text_str = get_json()

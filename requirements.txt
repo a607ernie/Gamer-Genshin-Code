@@ -4,3 +4,4 @@ bs4
 pandas
 lxml
 gunicorn
+python-dotenv
