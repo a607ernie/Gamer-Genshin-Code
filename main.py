@@ -23,13 +23,15 @@ def searchcode():
     code = request.form['code']
     
     # check  repeat code with input code and database
-    ans = check_repeat_code(code)
+    result = check_repeat_code(code)
 
     # output answer
+    ans = result['ans']
+    floor = result['floor']
     if ans == "序號已存在":
-        flash('序號已存在')
+        flash('{}, 在集中串的 {} 樓'.format(ans,floor))
     elif ans == "序號可使用":
-        flash('序號可使用')
+        flash('{} , 網址 : https://genshin.hoyoverse.com/zh-tw/gift?code={}'.format(ans,result['code']))
     else:
         flash('有BUG, 請等待修復')
     return redirect(url_for('index'))
@@ -67,9 +69,9 @@ def check_repeat_code(code):
     if text_str != {}:
         for item in text_str.keys():
             for _code in text_str[item]['code']:
-                if code == _code:      
-                    return "序號已存在"
-        return "序號可使用"
+                if code == _code:
+                    return {'floor':item,'ans':"序號已存在",'code':code}
+        return {'floor':0,'ans':"序號可使用",'code':code}
     else:
         flash("找不到比對資料，無法比對序號，請回報問題")
 
@@ -77,6 +79,6 @@ def check_repeat_code(code):
 
 
 if __name__ == '__main__':
-    #app.debug = False
+    #app.debug = True
     app.secret_key = "your key"
     app.run()
